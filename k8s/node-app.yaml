@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app
+spec:
+  selector:
+    matchLabels:
+      run: node-app
+  template:
+    metadata:
+      labels:
+        run: node-app
+    spec:
+      containers:
+        - name: node-app
+          image: jimmiext/node-app:v1-release
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              cpu: 500m
+            requests:
+              cpu: 200m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-app
+  labels:
+    run: node-app
+spec:
+  ports:
+    - port: 3000
+  selector:
+    run: node-app
